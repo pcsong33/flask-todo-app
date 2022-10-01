@@ -4,23 +4,24 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-# /// = relative path, //// = absolute path
+# configure sqlite databse to handle saving task changes
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-
+# initialize sqlite database
 class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100))
     complete = db.Column(db.Boolean)
 
-
+# establish home route, render base.html
 @app.route("/")
 def home():
     todo_list = Todo.query.all()
     return render_template("base.html", todo_list=todo_list)
 
+# add POST method, when someone submits a task, add a new task to the database
 @app.route("/add", methods=["POST"])
 def add():
     title = request.form.get("title")
@@ -29,6 +30,7 @@ def add():
     db.session.commit()
     return redirect(url_for("home"))
 
+# change completion status of task
 @app.route("/update/<int:todo_id>")
 def update(todo_id):
     todo = Todo.query.filter_by(id=todo_id).first()
@@ -36,6 +38,7 @@ def update(todo_id):
     db.session.commit()
     return redirect(url_for("home"))
 
+# delete task
 @app.route("/delete/<int:todo_id>")
 def delete(todo_id):
     todo = Todo.query.filter_by(id=todo_id).first()
@@ -43,6 +46,7 @@ def delete(todo_id):
     db.session.commit()
     return redirect(url_for("home"))
 
+# run app in debug mode
 if __name__ == "__main__":
     db.create_all()
     app.run(debug=True)

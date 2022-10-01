@@ -2,39 +2,42 @@
 <html lang="en">
 
 <head>
+    <!-- declare metadata and stylesheet (semantic ui)-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo App: Built Using Flask</title>
-
+    <title>Todo App</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 </head>
 
 <body>
     <div style="margin-top: 50px;" class="ui container">
-        <h1 class="ui center aligned header">To Do App</h1>
-
+        <!-- declare app title-->
+        <h1 class="ui center aligned header">To Do App: Built Using Flask</h1>
+        <!-- create field for user to submit a new task-->
         <form class="ui form" action="/add" method="post">
             <div class="field">
                 <label>Todo Title</label>
                 <input type="text" name="title" placeholder="Enter Todo..."><br>
             </div>
+            <!-- Button for submitting task-->
             <button class="ui blue button" type="submit">Add</button>
         </form>
 
         <hr>
-
+        <!--  add jinja logic, looping through task items in the database-->
         {% for todo in todo_list %}
         <div class="ui segment">
-
+            <!--  If the task has not been finished, set label to "Not Complete"-->
             {% if todo.complete == False %}
             <p class="ui big header">{{todo.id }} | {{ todo.title }}</p>
-            <span class="ui gray label">Not Complete</span>
+            <span class="ui yellow label">Not Complete</span>
+            <!--  If the task has been finished, set label to "Completed", and strikethrough the task item-->
             {% else %}
             <p class="ui big header">{{todo.id }} | <s>{{ todo.title }}</s></p>
             <span class="ui green label">Completed</span>
             {% endif %}
-
+            <!-- Create buttons for updating and deleting tasks -->
             <a class="ui blue button" href="/update/{{ todo.id }}">Update</a>
             <a class="ui red button" href="/delete/{{ todo.id }}">Delete</a>
         </div>
