@@ -1,6 +1,6 @@
 # Flask Todo App
 ![Page Demo](demo.png)
-You can view the doodle prototype at this [link](https://psong-flask-todo-app.herokuapp.com/).
+You can view the prototype at this [link](https://psong-flask-todo-app.herokuapp.com/).
 
 Unlike previous iterations of the Todo app assignment, this is the first one that utilizes Python as the main web framework. 
 Flask is classified into a micro-framework, which means that it has little to no dependencies on external libraries. Thus, for 
